@@ -38,7 +38,7 @@ let pokemonList = [
 ];
 
 // iterates over each object
-for (let i = 0; pokemonList.length < 10; i++) {
+for (let i = 0; i < pokemonList.length; i++) {
   if (pokemonList[i].height < 1.0) {
     document.write(
       `${pokemonList[i].name} (height: ${pokemonList[i].height}) - is a small pokemon `
