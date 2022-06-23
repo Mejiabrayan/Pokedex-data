@@ -45,12 +45,12 @@ let pokemonRepository = (function () {
   //Function adds pokemon and validates typeof
   function add(pokemon) {
     if (typeof pokemon !== "object") {
-      console.log("A pokemon is required");
+      document.write("A pokemon is required");
     }
 
     let keys = Object.keys(pokemon);
     if (!keys.includes("name")) {
-      console.log("Missing Requirements");
+      document.write("Missing Requirements");
     }
     pokemonList.push(pokemon);
   }
@@ -68,19 +68,6 @@ let pokemonRepository = (function () {
 })();
 
 
-pokemonRepository.getAll().forEach(pokemonList => console.log(pokemonList));
+pokemonRepository.getAll().forEach(pokemonList => document.write(pokemonList));
 
 
-// No longer needed
-
-// for (let i = 0; i < pokemonList.length; i++) {
-//   if (pokemonList[i].height < 1.0) {
-//     document.write(
-//       `${pokemonList[i].name} (height: ${pokemonList[i].height}) - is a small pokemon `
-//     );
-//   } else {
-//     document.write(
-//       ` ${pokemonList[i].name} (height ${pokemonList[i].height}) - is a big pokemon! `
-//     );
-//   }
-// }
