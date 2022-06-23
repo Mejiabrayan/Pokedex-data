@@ -68,6 +68,8 @@ let pokemonRepository = (function () {
 })();
 
 
-pokemonRepository.getAll().forEach(pokemonList => document.write(pokemonList));
+pokemonRepository.getAll().forEach(function (list) {
+  document.write(`Name: ${list.name}, Abilities: ${list.abilities} `);
+});
 
 
