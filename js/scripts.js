@@ -107,7 +107,8 @@ pokemonRepository.getAll().forEach(function (pokemon) {
   pokemonRepository.addListItem(pokemon);
 });
 
-// console.log(pokemonRepository.getAll());
 // pokemonRepository.getAll().forEach(function (list) {
 //   document.write(`Name: ${list.name}, Abilities: ${list.abilities} `);
 // });
+
+
