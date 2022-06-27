@@ -63,6 +63,7 @@ let pokemonRepository = (function () {
     pokemonList.push(pokemon);
   }
 
+  //  filters through pokemon names
   function filterPokemonByName(name) {
     let result = getAll().filter((pokemon) => pokemon.name == name);
     return result[0]; // starting index of 0
@@ -77,29 +78,31 @@ let pokemonRepository = (function () {
     button.classList.add("main-button"); //Adds list of classes to button
     listPokemon.appendChild(button);
     pokemonList.appendChild(listPokemon); //Attaches child to pokemon-list container
+    // button.addEventListener("click", function () {
+    //   showDetails(pokemon);
+    // });
+
+    eventListener(button, pokemon);
+  }
+  // Name it clearer
+  function eventListener(button, pokemon) {
     button.addEventListener("click", function () {
       showDetails(pokemon);
     });
-    // eventListener(pokemon);
   }
-
-  // function eventListener(button, pokemon) {
-  //   button.addEventListener('click', function(){
-  //     showDetails(button, pokemon)
-  //   })
-  // }
 
   function showDetails(pokemon) {
-    console.log(pokemon);
+    console.log(`This is ${pokemon.name}! and it's type is ${pokemon.types}`);
   }
 
-  //Callbacks
+  //Returns functions
   return {
     add: add,
     getAll: getAll,
     addListItem: addListItem,
     filterPokemonByName: filterPokemonByName,
     showDetails: showDetails,
+    eventListener: eventListener,
   };
 })();
 
@@ -110,5 +113,3 @@ pokemonRepository.getAll().forEach(function (pokemon) {
 // pokemonRepository.getAll().forEach(function (list) {
 //   document.write(`Name: ${list.name}, Abilities: ${list.abilities} `);
 // });
-
-
