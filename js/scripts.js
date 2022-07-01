@@ -1,42 +1,6 @@
 let pokemonRepository = (function () {
-  let pokemonList = [
-    {
-      name: "Bulbasaur",
-      height: 0.7,
-      weight: "15.2 lbs",
-      abilities: ["Chlorophyll", "Overgrow"],
-      category: "Seed",
-      types: ["Grass", "Poison"],
-      weakness: ["Fire", "Pyschic", "Flying", "Ice"],
-    },
-    {
-      name: "Charmander",
-      height: 0.6,
-      weight: "18.7 lbs",
-      abilities: ["Blaze", "Solar-power"],
-      category: "Lizard",
-      types: ["Fire"],
-      weakness: ["Water", "Ground", "Rock"],
-    },
-    {
-      name: "Squirtle",
-      height: 0.5,
-      weight: "19.8 lbs",
-      abilities: ["Rain-dish", "Torrent"],
-      category: "Tiny Turtle",
-      types: ["Water"],
-      weakness: ["Grass", "Electric"],
-    },
-    {
-      name: "Arbok",
-      height: "11' 06",
-      weight: "123 lbs",
-      abilities: ["Shred Skin", "Intimidate"],
-      category: "Cobra",
-      types: ["Poison"],
-      weakness: ["Pyschic", "Ground"],
-    },
-  ];
+  let pokemonList = [];
+  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
   //Function returns list of pokemon
   function getAll() {
     return pokemonList;
@@ -47,8 +11,7 @@ let pokemonRepository = (function () {
     if (
       typeof pokemon === "object" &&
       "name" in pokemon &&
-      "height" in pokemon &&
-      "types" in pokemon
+      "detailsUrl" in pokemon
     ) {
       pokemonList.push(pokemon);
     } else {
@@ -82,17 +45,60 @@ let pokemonRepository = (function () {
     //   showDetails(pokemon);
     // });
 
-    eventListener(button, pokemon);
+    eventListener(button, pokemon)
   }
   // Name it clearer
-  function eventListener(button, pokemon) {
-    button.addEventListener("click", function () {
-      showDetails(pokemon);
+  function eventListener(button, pokemonItem) {
+    button.addEventListener("click", function (event) {
+      showDetails(pokemonItem);
     });
   }
 
-  function showDetails(pokemon) {
-    console.log(`This is ${pokemon.name}! and it's type is ${pokemon.types}`);
+  function showDetails(pokemonItem) {
+    pokemonRepository.loadDetails(pokemonItem).then(function () {
+      console.log(pokemonItem);
+    });
+  }
+  // Fetches data from our API
+  function loadList() {
+    return fetch(apiUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        json.results.forEach(function (pokemonItem) {
+          let pokemon = {
+            name: pokemonItem.name,
+            detailsUrl: pokemonItem.url,
+          };
+          add(pokemon);
+          console.log(pokemon);
+        });
+      })
+      .catch(function (e) {
+        console.error(e);
+      });
+  }
+
+  function loadDetails(pokemonItem) {
+    let url = pokemonItem.detailsUrl;
+    return fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (details) {
+        // Details go here
+        pokemonItem.imageUrl = details.sprites.front_default;
+        pokemonItem.imageUrl = details.sprites.back_default;
+        pokemonItem.height = details.height;
+        pokemonItem.weight = details.weight;
+        pokemonItem.types = details.types;
+        pokemonItem.abilities = details.abilities;
+        pokemonItem.moves = details.moves;
+      })
+      .catch(function (e) {
+        console.error(e);
+      });
   }
 
   //Returns functions
@@ -102,14 +108,19 @@ let pokemonRepository = (function () {
     addListItem: addListItem,
     filterPokemonByName: filterPokemonByName,
     showDetails: showDetails,
+    loadList: loadList,
+    loadDetails: loadDetails,
     eventListener: eventListener,
   };
 })();
 
-pokemonRepository.getAll().forEach(function (pokemon) {
-  pokemonRepository.addListItem(pokemon);
-});
+// Loads the data being fetched
 
+pokemonRepository.loadList().then(function () {
+  pokemonRepository.getAll().forEach(function (pokemon) {
+    pokemonRepository.addListItem(pokemon);
+  });
+});
 // pokemonRepository.getAll().forEach(function (list) {
 //   document.write(`Name: ${list.name}, Abilities: ${list.abilities} `);
 // });
