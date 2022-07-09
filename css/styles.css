@@ -1,25 +1,72 @@
 /* styles */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
 
 :root {
   --primary-color: #37474f;
   --primary-text-color: #fff;
 }
-
+html,
 body {
   background-color: var(--primary-color);
   color: var(--primary-text-color);
+  font-family: "Poppins", sans-serif;
 }
 
-.content {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
+/* Modal won't show until */
+#modal-container {
+  display: none;
 }
 
-.main-button {
+/* Unless class is visible is active */
+#modal-container.is-visible {
+  box-sizing: border-box;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  overflow: auto;
+  /* Centers the modal */
+  display: grid;
+  text-align: center;
+}
+
+/* Modal Styling */
+.modal {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  color: #37474f;
+  padding: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
+
+.modal-close {
+  float: right;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  color: #777;
+  text-decoration: underline;
+}
+
+.modal h1 {
+  margin-top: 0;
+}
+
+.modal p {
+  margin-bottom: 0;
+}
+
+.selected-button {
   min-width: 150px;
   max-width: 250px;
-  display: inline-block;
   margin: 1em;
   padding: 1em 2em;
   color: inherit;
@@ -27,9 +74,6 @@ body {
   border-radius: 8px;
   transition-duration: 0.4s;
   box-shadow: 8px 10px 10px 1px rgba(0, 0, 0, 0.5);
-}
-.main-button:hover {
-  transform: scale(1);
 }
 
 li {
