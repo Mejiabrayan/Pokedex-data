@@ -2,10 +2,7 @@ let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
   let modalContainer = document.querySelector("#modal-container");
-  //Function returns list of pokemon
-  function getAll() {
-    return pokemonList;
-  }
+
   //Function adds pokemon and validates using typeof
   function add(pokemon) {
     if (
@@ -19,11 +16,11 @@ let pokemonRepository = (function () {
     }
 
     // iterates over keys
-    let keys = Object.keys(pokemon);
-    if (!keys.includes("name")) {
-      document.write("Missing Requirements");
-    }
-    pokemonList.push(pokemon);
+    // let keys = Object.keys(pokemon);
+    // if (!keys.includes("name")) {
+    //   document.write("Missing Requirements");
+    // }
+    // pokemonList.push(pokemon);
   }
 
   //  filters through pokemon names
@@ -163,6 +160,10 @@ let pokemonRepository = (function () {
       .catch(function (e) {
         console.error(e);
       });
+  }
+
+  function getAll() {
+    return pokemonList;
   }
 
   //Returns functions
