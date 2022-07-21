@@ -22,40 +22,71 @@
     <link rel="stylesheet" href="css/style.production.css" />
   </head>
   <body>
-    <nav class="navbar bg-light sticky-top">
-      <div class="container-fluid">
-        <div class="display-3 fw-bold">Pokédex</div>
-        <form class="d-flex row" role="search">
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container">
+        <a href="#home" class="navbar-brand">
+          <!-- Logo Image -->
+          <span class="text-uppercase font-weight-bold text-warning">Pokédex</span>
+          <img
+            src="img/ball.png"
+            width="20"
+            alt=""
+            class="d-inline-block align-middle mr-2"
+          />
+        </a>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+          />
+          <button class="btn btn-outline-success" type="submit" col-sm>
+            Search
+          </button>
+        </form>
+
+        <!-- <form class="d-flex row" role="search">
           <button class="me-2 btn btn-outline-secondary col-sm" type="button">
             <i class="bi bi-search" alt="search icon"></i>
           </button>
-        </form>
+        </form> -->
       </div>
     </nav>
-  
-    <p class="fw-bold position-absolute top-10 start-50 text-center text-danger"></p>
+
+    <p
+      class="fw-bold position-absolute top-10 start-50 text-center text-danger"
+    ></p>
+    <!-- Pokemon Display -->
     <ul class="list-group-horizontal row mt-4"></ul>
-  
-    <div class="modal fade" id="pokemonModal" tabindex="-1" role="dialog" aria-labelledby="pokemonModalLabel" aria-hidden="true">
+
+    <div
+      class="modal fade"
+      id="pokemonModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="pokemonModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog pt-5 text-center" role="document">
         <div class="modal-content">
           <div class="modal-header row">
             <p class="modal-title h5 col-sm-3" id="pokemonModalLabel"></p>
-            <button class="btn btn-close col-sm-9 me-3" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true"></span>
+            <button
+              class="btn btn-close col-sm-9 me-3"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body"></div>
         </div>
       </div>
     </div>
-  
-  
+
     <script src="js/promise-polyfill.js"></script>
     <script src="js/fetch-pollyfill.js"></script>
     <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
       crossorigin="anonymous"
     ></script>
     <script
