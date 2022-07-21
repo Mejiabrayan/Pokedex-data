@@ -7,11 +7,10 @@ let pokemonRepository = (function () {
   let modalDialog = $(".modal-dialog");
   let modalContent = $(".modal-content");
   let modalBody = $(".modal-body");
-  let modalTitle = $(".model-title");
+  let modalTitle = $(".modal-title");
   let modalHeader = $(".modal-header");
   let modalClose = $(".btn-close");
-
-  let searchInput = $(".btn-outline-secondary");
+  let searchIcon = $(".btn-outline-secondary");
 
   let listItemArray = $("li");
 
@@ -24,7 +23,7 @@ let pokemonRepository = (function () {
     ) {
       pokemonList.push(pokemon);
     } else {
-      console.log("pokemon is not correct");
+      alert("pokemon is not correct");
     }
   }
 
@@ -40,15 +39,17 @@ let pokemonRepository = (function () {
   // Function adds a list of pokemon
   function addListItem(pokemon) {
     let pokemonDisplay = $(".list-group-horizontal");
+    // Creates li element
     let listItem = $("<li>");
     listItem.addClass(
       "list-group-item text-center col-sm-6 col-md-4 border border-primary bg-image img-fluid"
     );
-
+    // Creates h1 for Pokemon Name
     let listTitle = $("<h1>");
     listTitle.html(`${pokemon.name}`);
     listTitle.addClass("display-6");
 
+    // Creates divs
     let listImg = $("<div>");
     loadDetails(pokemon).then(function () {
       listImg.append(
@@ -56,15 +57,14 @@ let pokemonRepository = (function () {
       );
     });
 
-    // Jquery Equivalent
     let listButton = $("<button>");
-    listButton.append("show More");
+    listButton.html("show More");
 
     // Added Bootstrap Utility Class
     listButton.addClass("mp-2 btn btn-secondary");
     listButton.attr("type", "button");
-    listButton.attr("data-bs-toggle", "modal");
-    listButton.attr("data-bs-toggle", "#pokemonModal");
+    listButton.attr("data-toggle", "modal");
+    listButton.attr("data-toggle", "#pokemonModal");
 
     listItem.append(listTitle);
     listItem.append(listImg);
@@ -96,27 +96,24 @@ let pokemonRepository = (function () {
         poison: "text-secondary",
       };
 
-    
-      pokemon.types.forEach(type => modalTitle.addClass(pokemonType[type.type.name]));
-      modalTitle.append(`<p><strong>${pokemon.name}</strong></p>`);
+      pokemon.types.forEach((type) =>
+        modalTitle.addClass(pokemonType[type.type.name])
+      );
+      modalTitle.html(`<p><strong>${pokemon.name}</strong></p>`);
 
-      // modalBody.html(`
-      // Entry: ${pokemon.id}<br>
-      // Height:${pokemon.height}<br>
-      // Types: ${pokemon.types[0].type.name}
-      // `);
-
-      modalBody.innerHTML = `
+      modalBody.append(`
         Entry: ${pokemon.id}<br>
         Height: ${pokemon.height}<br>
         Weight: ${pokemon.weight}<br>
-        Types: ${pokemon.types[0].type.name}`;
+        Types: ${pokemon.types[0].type.name}`);
+
+        
 
       if (pokemon.types.length === 2) {
         modalBody.innerHTML += `, ${pokemon.types[1].type.name}`;
       }
 
-      modalBody.innerHTML += `<br>Abilities: ${pokemon.abilities[0].ability.name}`;
+      modalBody.innerHTML += `<br>Abilities: ${pokemon.abilities[0]}.ability.name}`;
 
       if (pokemon.abilities.length === 2) {
         modalBody.innerHTML += `, ${pokemon.abilities[1]}.ability.name}`;
@@ -137,33 +134,40 @@ let pokemonRepository = (function () {
       modalContent.append(modalBody);
       modalContainer.append(modalDialog);
     });
+
+    modalContainer.modal("show");
   }
 
   // Event Listeners
 
   modalClose.on("click", () => {
-    modalContainer.removeClass("modal-open");
-    modalContainer.attr("style", "display:none");
+    modalContainer.removeClass("fade");
+    // modalContainer.css({ display: "none" });
+    modalContainer.show();
 
     listItemArray[0].lastChild.click();
   });
 
-  searchInput.on("click", function () {
+  searchIcon.on("click", () => {
+    // fetching .d-flex class in form
     let bodyHeader = $(".d-flex");
     // returns the number of child elements
-    if (bodyHeader.childElementCount === 1) {
-      //creating our element input
+    if (bodyHeader.children().length === 1) {
+      //creates input element
       let searchQuery = $("<input>");
       searchQuery.attr("placeholder", "Pokemon Name");
       searchQuery.attr("type", "search");
       searchQuery.attr("aria-label", "search Pokemon Name");
       searchQuery.addClass("form-control my-3 ps-2 col-sm");
-      searchInput.blur();
+
+      searchIcon.blur();
       searchQuery.focus();
+
       bodyHeader.append(searchQuery);
 
       searchQuery.on("keydown", (e) => {
         if (e.key === "Enter") {
+          // prevents it from refreshing if we hit the enter key
           e.preventDefault();
           searchQuery.value =
             searchQuery.value.charAt(0).toUpperCase() +
