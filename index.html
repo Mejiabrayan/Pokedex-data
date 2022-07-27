@@ -8,6 +8,7 @@
       name="description"
       content="The Pokédex is a simple encyclopedia of Pokémon and their characteristics."
     />
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <title>Pokédex App</title>
     <link
       rel="stylesheet"
@@ -37,6 +38,7 @@
         <form class="d-flex" role="search">
           <input
             class="form-control me-2"
+            placeholder="Pokemon Name"
           />
           <button class="btn btn-outline-success" type="submit" col-sm>
             Search
@@ -55,7 +57,10 @@
       class="fw-bold position-absolute top-10 start-50 text-center text-danger"
     ></p>
     <!-- Pokemon Display -->
-    <ul class="list-group-horizontal row mt-4"></ul>
+    <div class="container">
+      <ul class=" list-group list-group-horizontal flex-fill row mt-4"></ul>
+
+    </div>
 
     <div
       class="modal fade"
