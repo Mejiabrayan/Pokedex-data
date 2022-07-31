@@ -101,13 +101,11 @@ let pokemonRepository = (function () {
       );
       modalTitle.html(`<p><strong>${pokemon.name}</strong></p>`);
 
-      modalBody.append(`
+      modalBody.html(`
         Entry: ${pokemon.id}<br>
         Height: ${pokemon.height}<br>
         Weight: ${pokemon.weight}<br>
         Types: ${pokemon.types[0].type.name}`);
-
-        
 
       if (pokemon.types.length === 2) {
         modalBody.innerHTML += `, ${pokemon.types[1].type.name}`;
@@ -119,13 +117,11 @@ let pokemonRepository = (function () {
         modalBody.innerHTML += `, ${pokemon.abilities[1]}.ability.name}`;
       }
 
-      modalBody.innerHTML += `<br>
-      <img src=${pokemon.imageElementFront} alt="${pokemon.name} front sprite">
-      <img src=${pokemon.imageElementBack} alt="${pokemon.name} back sprite">
+      modalBody.append(`<br>
+      <img src=${pokemon.imageUrlFront} alt="${pokemon.name} front sprite">
+      <img src=${pokemon.imageUrlBack} alt="${pokemon.name} back sprite">
       <br>
-      <img src=${pokemon.imageUrlFrontShiny} alt="${pokemon.name} front shiny">
-      <img src=${pokemon.imageUrlBackShiny} alt="${pokemon.name} back shiny">
-      `;
+      `);
 
       modalDialog.append(modalContent);
       modalContent.append(modalHeader);
