@@ -1,8 +1,9 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
+  // API
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
 
-  // Global Variables
+  let searchIcon = $(".btn-outline-secondary");
   let modalContainer = $(".modal");
   let modalDialog = $(".modal-dialog");
   let modalContent = $(".modal-content");
@@ -10,11 +11,9 @@ let pokemonRepository = (function () {
   let modalTitle = $(".modal-title");
   let modalHeader = $(".modal-header");
   let modalClose = $(".btn-close");
-  let searchIcon = $(".btn-outline-secondary");
 
   let listItemArray = $("li");
 
-  //Function adds pokemon and validates using typeof
   function add(pokemon) {
     if (
       typeof pokemon === "object" &&
@@ -23,15 +22,13 @@ let pokemonRepository = (function () {
     ) {
       pokemonList.push(pokemon);
     } else {
-      alert("pokemon is not correct");
+      console.error("pokemon is not correct");
     }
   }
 
   function getAll() {
     return pokemonList;
   }
-
-  //  filters through pokemon names
   function search(pokemonName) {
     return pokemonList.filter((pokemon) => pokemon.name === pokemonName);
   }
@@ -42,14 +39,15 @@ let pokemonRepository = (function () {
     // Creates li element
     let listItem = $("<li>");
     listItem.addClass(
-      "list-group-item text-center col-sm-6 col-md-4 border border-primary bg-image img-fluid"
+      "list-group-item text-center col-sm-6 col-md-4 border border-secondary bg-image img-fluid"
     );
+
     // Creates h1 for Pokemon Name
     let listTitle = $("<h1>");
     listTitle.html(`${pokemon.name}`);
     listTitle.addClass("display-6");
 
-    // Creates divs
+    // Creates div which holds sprites
     let listImg = $("<div>");
     loadDetails(pokemon).then(function () {
       listImg.append(
@@ -58,13 +56,16 @@ let pokemonRepository = (function () {
     });
 
     let listButton = $("<button>");
-    listButton.html("show More");
+    listButton.text("show More");
+    listButton.css({
+      "box-shadow": "0 2px 5px 0 rgba(0,0,0,.2),0 2px 10px 0 rgba(0,0,0,.1)",
+    });
 
     // Added Bootstrap Utility Class
     listButton.addClass("mp-2 btn btn-secondary");
     listButton.attr("type", "button");
-    listButton.attr("data-toggle", "modal");
-    listButton.attr("data-toggle", "#pokemonModal");
+    listButton.attr("data-bs-toggle", "modal");
+    listButton.attr("data-bs-toggle", "#pokemonModal");
 
     listItem.append(listTitle);
     listItem.append(listImg);
@@ -99,7 +100,7 @@ let pokemonRepository = (function () {
       pokemon.types.forEach((type) =>
         modalTitle.addClass(pokemonType[type.type.name])
       );
-      modalTitle.html(`<p><strong>${pokemon.name}</strong></p>`);
+      modalTitle.html(`${pokemon.name}`);
 
       modalBody.html(`
         Entry: ${pokemon.id}<br>
@@ -134,17 +135,16 @@ let pokemonRepository = (function () {
     modalContainer.modal("show");
   }
 
-  // Event Listeners
-
-  modalClose.on("click", () => {
-    modalContainer.removeClass("fade");
-    // modalContainer.css({ display: "none" });
-    modalContainer.show();
-
-    listItemArray[0].lastChild.click();
+  modalContainer.on("shown.bs.modal", () => {
+    // Jquery eventlistener
+    modalClose.on("click", () => {
+      modalContainer.removeClass("fade");
+      modalContainer.modal("hide");
+      listItemArray[0].children().click();
+    });
   });
 
-  searchIcon.on("click", () => {
+  searchIcon.on("click", (e) => {
     // fetching .d-flex class in form
     let bodyHeader = $(".d-flex");
     // returns the number of child elements
@@ -158,46 +158,47 @@ let pokemonRepository = (function () {
 
       searchIcon.blur();
       searchQuery.focus();
-
       bodyHeader.append(searchQuery);
 
       searchQuery.on("keydown", (e) => {
         if (e.key === "Enter") {
-          // prevents it from refreshing if we hit the enter key
           e.preventDefault();
-          searchQuery.value =
-            searchQuery.value.charAt(0).toUpperCase() +
-            searchQuery.value.slice(1);
+          searchQuery.val(
+            (i, value) => value[0].toUpperCase() + value.slice(1)
+          );
 
           for (let i = 0; i < listItemArray.length; i++) {
             if (
-              902 > listItemArray[i].lastChild.getBoundingClientRect()["top"] &&
-              listItemArray[i].lastChild.getBoundingClientRect()["top"] > 42
+              902 > listItemArray.eq(i).last().getBoundingClientRect()["top"] &&
+              listItemArray.eq(i).last().getBoundingClientRect()["top"] > 42
             ) {
-              listItemArray[i].lastChild.click();
+              listItemArray.eq(i).last().click();
             }
           }
           for (let i = 0; i < listItemArray.length; i++) {
             if (
-              listItemArray[i].innerText.split("\n")[0] === searchQuery.value
+              listItemArray.eq(i).text().split("\n")[0] === searchQuery.val()
             ) {
               setTimeout(function () {
-                listItemArray[i].lastChild.click();
+                listItemArray.eq(i).last().click();
               }, 5);
             }
           }
         }
       });
     }
+    // e.preventDefault();
   });
 
   // Fetches data from API
   function loadList() {
+    showLoadingMessage();
     return fetch(apiUrl)
       .then(function (response) {
         return response.json();
       })
       .then(function (json) {
+        hideLoadingMessage();
         json.results.forEach((item) => {
           let pokemon = {
             name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
@@ -212,16 +213,16 @@ let pokemonRepository = (function () {
   }
 
   function loadDetails(item) {
+    showLoadingMessage();
     let url = item.detailsUrl;
     return fetch(url)
       .then(function (response) {
         return response.json();
       })
       .then(function (details) {
+        hideLoadingMessage();
         item.imageUrlFront = details.sprites.front_default;
         item.imageUrlBack = details.sprites.back_default;
-        item.imageUrlFrontShiny = details.sprites.front_shiny;
-        item.imageUrlBackShiny = details.sprites.back_shiny;
         item.id = details.id;
         item.height = details.height;
         item.weight = details.weight;
@@ -231,6 +232,13 @@ let pokemonRepository = (function () {
       .catch(function (error) {
         console.error(error);
       });
+  }
+  function showLoadingMessage() {
+    $(".text-muted").remove("d-none");
+  }
+
+  function hideLoadingMessage() {
+    $(".text-muted").addClass("d-none");
   }
 
   return {
@@ -244,8 +252,6 @@ let pokemonRepository = (function () {
     buttonEvent: buttonEvent,
   };
 })();
-
-// Loads the data being fetched
 
 pokemonRepository.loadList().then(function () {
   pokemonRepository.getAll().forEach(function (pokemon) {

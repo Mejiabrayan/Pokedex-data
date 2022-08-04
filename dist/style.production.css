@@ -8,6 +8,10 @@
 /* styles */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
 
+body {
+  background: url(/img/wintery-sunburst.svg) white;
+}
+
 .modal-body {
   padding: 0;
   padding-top: 10px;
@@ -30,4 +34,10 @@
 .row > * {
   padding-left: 0;
   padding-right: 0;
+}
+
+.navbar {
+  -webkit-box-shadow: 0 8px 6px -6px #999;
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
 }
