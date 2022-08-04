@@ -16,11 +16,10 @@ let pokemonRepository = (function () {
 
   function loadPage() {
     $("nav a").on("click", function (e) {
-      // User clicks nav link
       e.preventDefault(); // Stop loading new link
       var url = this.href; // Get value of href
 
-      $("nav a").removeClass("active"); // Clear current indicator
+      $("nav a").remove("active"); // Clear current indicator
       $(this).addClass("active"); // New current indicator
 
       $(".container").remove(); // Remove old content
