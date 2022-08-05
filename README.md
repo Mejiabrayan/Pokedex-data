@@ -13,3 +13,4 @@ data from an external API and enables the viewing of data points in detail.
 - Jquery
 
 
+![screen-gif](/img/pokedex.gif)

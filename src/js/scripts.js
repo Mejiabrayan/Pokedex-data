@@ -151,22 +151,25 @@ let pokemonRepository = (function () {
   });
 
   searchIcon.on("click", (e) => {
-    let bodyHeader = $(".d-flex");
-    if (bodyHeader.children().length === 1) {
-      let searchQuery = $("<input>");
-      searchQuery.attr("placeholder", "Pokemon Name");
-      searchQuery.attr("type", "search");
-      searchQuery.attr("aria-label", "search Pokemon Name");
-      searchQuery.addClass("form-control my-3 ps-2 col-sm");
+    e.preventDefault()
+    let formElement = $("#form-input");
+    if (formElement.children().length === 1) {
+      let searchInput = $("<input>");
+      searchInput.attr("placeholder", "Pokemon Name");
+      searchInput.attr("type", "search");
+      searchInput.attr("aria-label", "search Pokemon Name");
+      searchInput.addClass("form-control my-3 ps-2 col-sm");
 
       searchIcon.blur();
-      searchQuery.focus();
-      bodyHeader.append(searchQuery);
+      searchInput.focus();
+      formElement.append(searchInput);
 
-      searchQuery.on("keydown", (e) => {
+      searchInput.on("keydown", (e) => {
         if (e.key === "Enter") {
-          searchQuery.val(
-            (i, value) => value[0].toUpperCase() + value.slice(1)
+          searchInput.val(
+            (i, value) => {
+              return value[0].toUpperCase() + value.slice(1);
+            }
           );
           for (let i = 0; i < listItemArray.length; i++) {
             const $el = listItemArray.eq(i).last(); // cache the element selector
@@ -179,7 +182,7 @@ let pokemonRepository = (function () {
           }
           for (let i = 0; i < listItemArray.length; i++) {
             if (
-              listItemArray.eq(i).text().split("\n")[0] === searchQuery.val()
+              listItemArray.eq(i).text().split("\n")[0] === searchInput.val()
             ) {
               setTimeout(function () {
                 listItemArray.eq(i).last().click();
@@ -191,7 +194,7 @@ let pokemonRepository = (function () {
         }
       });
     }
-    e.preventDefault();
+    // e.preventDefault();
   });
 
   // Fetches data from API
