@@ -22,8 +22,8 @@ let pokemonRepository = (function () {
       $("nav a").remove("active"); // Clear current indicator
       $(this).addClass("active"); // New current indicator
 
-      $(".container").remove(); // Remove old content
-      $(".content").load(`${url} .container`).hide().fadeIn("slow");
+      $("#container").remove(); // Remove old content
+      $("#content").load(`${url} #container`).hide().fadeIn("slow");
     });
   }
 
