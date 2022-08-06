@@ -2,15 +2,14 @@
 
 # Description
 
-Pokedex is a web application built with HTML, CSS, and JavaScript that loads
-data from an external API and enables the viewing of data points in detail.
-
+Pokedex is a mobile-friendly web app built with HTML, CSS, and JavaScript that loads
+data from an Pokedex external API and enables the viewing of Pokemon characteristics, there height, weight, and abililties, etc.
 
 # Technologies
 
 - Javascript
 - JSON
-- Jquery
-
+- jQuery
+- Bootstrap
 
 ![screen-gif](/img/pokedex.gif)
