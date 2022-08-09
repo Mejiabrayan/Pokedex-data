@@ -5,6 +5,10 @@ body.home {
   background: url(/img/wintery-sunburst.svg) white;
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 .modal-body {
   padding: 0;
   padding-top: 10px;
@@ -28,7 +32,6 @@ body.home {
   padding-left: 0;
   padding-right: 0;
 }
-
 
 .navbar {
   -webkit-box-shadow: 0 8px 6px -6px #999;

@@ -15,11 +15,11 @@ let pokemonRepository = (function () {
   let listItemArray = $("li");
 
   function loadPage() {
-    $("nav a").on("click", function (e) {
+    $("nav.nav-link").on("click", function (e) {
       e.preventDefault(); // Stop loading new link
       var url = this.href; // Get value of href
 
-      $("nav a").remove("active"); // Clear current indicator
+      $("nav.nav-link").remove("active"); // Clear current indicator
       $(this).addClass("active"); // New current indicator
 
       $("#container").remove(); // Remove old content
@@ -84,7 +84,7 @@ let pokemonRepository = (function () {
 
   function buttonEvent(listButton, pokemon) {
     listButton.on("click", () => {
-      modalContainer.fadeIn("slow");
+      modalContainer.fadeIn("fast");
       showDetails(pokemon);
     });
   }
@@ -168,7 +168,7 @@ let pokemonRepository = (function () {
         if (e.key === "Enter") {
           searchInput.val(
             (i, value) => {
-              return value[0].toUpperCase() + value.slice(1);
+              return value.eq(0).toUpperCase() + value.slice(1);
             }
           );
           for (let i = 0; i < listItemArray.length; i++) {
@@ -194,7 +194,6 @@ let pokemonRepository = (function () {
         }
       });
     }
-    // e.preventDefault();
   });
 
   // Fetches data from API
