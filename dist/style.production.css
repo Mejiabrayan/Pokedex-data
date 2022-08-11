@@ -1,12 +1,9 @@
 /* styles */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
-
-body.home {
-  background: url(/img/wintery-sunburst.svg) white;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap');
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100%;
 }
 
 .modal-body {
